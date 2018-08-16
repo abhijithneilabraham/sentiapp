@@ -5,6 +5,19 @@ Created on Wed Aug 15 22:34:48 2018
 
 @author: abhijith
 """
+from string import punctuation
+from keras.models import model_from_json
+from os import listdir
+from numpy import array
+from numpy import asarray
+from numpy import zeros
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Embedding
+from keras.layers.convolutional import Conv1D
 def load_model():
     
     json_file = open('model.json', 'r')
@@ -56,7 +69,11 @@ def process_docs(directory, vocab, is_trian):
 		# add lines to list
 		lines += doc_lines
 	return lines
-file='nn.txt'
-x=load_docs(file)
-x=process_docs(x)
-model=load_model
+
+vocab_filename = 'vocab.txt'
+vocab = load_doc(vocab_filename)
+vocab = vocab.split()
+vocab = set(vocab)
+doc='nn.txt'
+x=doc_to_clean_lines('doc',vocab)
+print(x)

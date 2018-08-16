@@ -18,8 +18,8 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers import Embedding
 from keras.layers.convolutional import Conv1D
-def load_model():
-    
+
+def load_model():  
     json_file = open('model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -27,6 +27,8 @@ def load_model():
     # load weights into new model
     loaded_model.load_weights("model.h5")
     print("Loaded model from disk")
+    return loaded_model
+
 def load_doc(filename):
 	# open the file as read only
 	file = open(filename, 'r')
@@ -37,19 +39,16 @@ def load_doc(filename):
 	return text
 
 # turn a doc into clean tokens
-def doc_to_clean_lines(doc, vocab):
-	clean_lines = list()
-	lines = doc.splitlines()
-	for line in lines:
-		# split into tokens by white space
-		tokens = line.split()
-		# remove punctuation from each token
-		table = str.maketrans('', '', punctuation)
-		tokens = [w.translate(table) for w in tokens]
-		# filter out tokens not in vocab
-		tokens = [w for w in tokens if w in vocab]
-		clean_lines.append(tokens)
-	return clean_lines
+def clean_doc(doc, vocab):
+	# split into tokens by white space
+	tokens = doc.split()
+	# remove punctuation from each token
+	table = str.maketrans('', '', punctuation)
+	tokens = [w.translate(table) for w in tokens]
+	# filter out tokens not in vocab
+	tokens = [w for w in tokens if w in vocab]
+	tokens = ' '.join(tokens)
+	return tokens
 
 # load all docs in a directory
 def process_docs(directory, vocab, is_trian):
@@ -74,6 +73,16 @@ vocab_filename = 'vocab.txt'
 vocab = load_doc(vocab_filename)
 vocab = vocab.split()
 vocab = set(vocab)
-doc='nn.txt'
-x=doc_to_clean_lines('doc',vocab)
-print(x)
+d='nn.txt'
+doc=load_doc(d)
+x=clean_doc(doc,vocab)
+model=load_model()
+tokenizer=Tokenizer()
+tokenizer.fit_on_texts(x)
+
+encoded_docs = tokenizer.texts_to_sequences(x)
+# pad sequences
+max_length = max([len(s.split()) for s in x])
+Xtest = pad_sequences(encoded_docs, maxlen=max_length, padding='post')
+
+prediction = model.predict(Xtest)

@@ -7,6 +7,7 @@ Created on Wed Aug 15 22:34:48 2018
 """
 from string import punctuation
 from keras.models import model_from_json
+import numpy as np
 from os import listdir
 from numpy import array
 from numpy import asarray
@@ -52,7 +53,7 @@ def clean_doc(doc, vocab):
 
 # load all docs in a directory
 def process_docs(directory, vocab, is_trian):
-	lines = list()
+	documents = list()
 	# walk through all files in the folder
 	for filename in listdir(directory):
 		# skip any reviews in the test set
@@ -62,27 +63,29 @@ def process_docs(directory, vocab, is_trian):
 			continue
 		# create the full path of the file to open
 		path = directory + '/' + filename
-		# load and clean the doc
+		# load the doc
 		doc = load_doc(path)
-		doc_lines = doc_to_clean_lines(doc, vocab)
-		# add lines to list
-		lines += doc_lines
-	return lines
+		# clean doc
+		tokens = clean_doc(doc, vocab)
+		# add to list
+		documents.append(tokens)
+	return documents
 
 vocab_filename = 'vocab.txt'
 vocab = load_doc(vocab_filename)
 vocab = vocab.split()
 vocab = set(vocab)
-d='nn.txt'
-doc=load_doc(d)
-x=clean_doc(doc,vocab)
-model=load_model()
-tokenizer=Tokenizer()
+x=process_docs('txt_sentoken/nn', vocab, True)
+tokenizer = Tokenizer()
+# fit the tokenizer on the documents
 tokenizer.fit_on_texts(x)
 
+# sequence encode
 encoded_docs = tokenizer.texts_to_sequences(x)
 # pad sequences
-max_length = max([len(s.split()) for s in x])
-Xtest = pad_sequences(encoded_docs, maxlen=max_length, padding='post')
+Xtest = pad_sequences(encoded_docs, maxlen=1317, padding='post')
 
-prediction = model.predict(Xtest)
+model=load_model()
+prediction=model.predict(Xtest)
+print(prediction)
+

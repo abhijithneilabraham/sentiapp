@@ -133,7 +133,7 @@ model.add(embedding_layer)
 model.add(Conv1D(filters=128, kernel_size=5, activation='relu'))
 model.add(MaxPooling1D(pool_size=2))
 model.add(Flatten())
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(1, activation='softmax'))
 print(model.summary())
 # compile network
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])

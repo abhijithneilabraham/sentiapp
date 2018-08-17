@@ -88,4 +88,7 @@ Xtest = pad_sequences(encoded_docs, maxlen=1317, padding='post')
 model=load_model()
 prediction=model.predict(Xtest)
 print(prediction)
-
+if(prediction>=0.85):
+    print('oola padam')
+else:
+    print('kidilan padam machane')    

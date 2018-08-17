@@ -89,6 +89,6 @@ model=load_model()
 prediction=model.predict(Xtest)
 print(prediction)
 if(prediction>=0.85):
-    print('oola padam')
+    print('negative')
 else:
-    print('kidilan padam machane')    
+    print('positive')    

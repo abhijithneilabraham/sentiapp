@@ -1,4 +1,4 @@
-an attempt to do sentiment analysis
+***An attempt to do sentiment analysis and taking inference for the training algorithm from Jason Brownlee machinelearningmastery blogs
 
 untitled0.py is the training file
 

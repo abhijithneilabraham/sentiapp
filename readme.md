@@ -1,5 +1,5 @@
 ***An attempt to do sentiment analysis and taking inference for the training algorithm from Jason Brownlee machinelearningmastery blogs***
-
+Framework:keras
 untitled0.py is the training file
 
 untitled1.py is the test file

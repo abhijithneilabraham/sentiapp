@@ -10,6 +10,6 @@ untitled1.py is the test file
 
 download glove embedding from nlp.stanford.edu/data/glove.6B.zip
 
-the file glove.6B.100d.txt is in the folder inside the zip.copy it
+the file glove.6B.100d.txt is in the folder inside the zip file.
 
 nn.txt contains the test review paragraph
